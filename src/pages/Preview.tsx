@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-interface Movies {
+interface Movie {
   title: string;
   thumbnail?: string;
 }
 
 function Preview() {
-  const [movies, setMovies] = useState<Movies[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -14,9 +14,9 @@ function Preview() {
       try {
         const response = await fetch("/api/movies");
         const data = await response.json();
-        console.log(data);
+        console.log("FULL API RESPONSE:", JSON.stringify(data, null, 2));
 
-        let results: Movies[] = [];
+        let results: Movie[] = [];
 
         if (data.organic_results) {
           data.organic_results.forEach((item: any) => {
@@ -30,7 +30,7 @@ function Preview() {
             }
           });
         }
-
+        console.log("Movies before setMovies:", results);
         setMovies(results);
       } catch (error) {
         console.error("Error fetching movies:", error);
