@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-interface Movie {
+interface Movies {
   title: string;
   thumbnail?: string;
 }
 
 function Preview() {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<Movies[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function Preview() {
         const data = await response.json();
         console.log(data);
 
-        let results: Movie[] = [];
+        let results: Movies[] = [];
 
         if (data.organic_results) {
           data.organic_results.forEach((item: any) => {
