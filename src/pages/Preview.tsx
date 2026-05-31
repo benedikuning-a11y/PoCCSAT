@@ -57,35 +57,77 @@ function Preview() {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(to bottom, #141e30, #243b55)",
+        background:
+          "linear-gradient(135deg, #0f172a 0%, #1e293b 35%, #2563eb 70%, #38bdf8 100%)",
         padding: "30px",
         margin: "0",
         fontFamily: "Arial",
       }}
     >
-      <h1
+      {/* Header */}
+      <div
         style={{
-          color: "white",
-          textAlign: "center",
-          fontSize: "42px",
-          fontWeight: "bold",
-          letterSpacing: "3px",
-          textTransform: "uppercase",
-          textDecoration: "underline",
-          marginBottom: "30px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: "20px",
+          marginBottom: "15px",
+          flexWrap: "wrap",
         }}
       >
-        Google Play Movies
-      </h1>
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg"
+          alt="Google Play"
+          style={{
+            height: "70px",
+            width: "70px",
+            borderRadius: "15px",
+            boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
+          }}
+        />
 
+        <h1
+          style={{
+            color: "white",
+            fontSize: "50px",
+            fontWeight: "bold",
+            letterSpacing: "4px",
+            textShadow: "0 4px 15px rgba(0,0,0,0.4)",
+            margin: "0",
+          }}
+        >
+          Google Play Movies
+        </h1>
+      </div>
+
+      <p
+        style={{
+          textAlign: "center",
+          color: "#e2e8f0",
+          fontSize: "18px",
+          marginBottom: "40px",
+          letterSpacing: "1px",
+        }}
+      >
+        Discover, Search & Explore Movies from Google Play
+      </p>
+
+      {/* Search Section */}
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           gap: "15px",
-          marginBottom: "30px",
+          marginBottom: "40px",
           flexWrap: "wrap",
+          backgroundColor: "rgba(255,255,255,0.12)",
+          padding: "20px",
+          borderRadius: "20px",
+          maxWidth: "900px",
+          marginLeft: "auto",
+          marginRight: "auto",
+          boxShadow: "0 8px 25px rgba(0,0,0,0.2)",
         }}
       >
         <input
@@ -96,9 +138,10 @@ function Preview() {
           style={{
             padding: "12px",
             width: "280px",
-            borderRadius: "10px",
-            border: "1px solid #ccc",
+            borderRadius: "12px",
+            border: "none",
             fontSize: "16px",
+            outline: "none",
           }}
         />
 
@@ -107,8 +150,8 @@ function Preview() {
           onChange={(e) => setGenre(e.target.value)}
           style={{
             padding: "12px",
-            borderRadius: "10px",
-            border: "1px solid #ccc",
+            borderRadius: "12px",
+            border: "none",
             fontSize: "16px",
             cursor: "pointer",
           }}
@@ -130,14 +173,16 @@ function Preview() {
         <button
           onClick={fetchMovies}
           style={{
-            padding: "12px 20px",
-            borderRadius: "10px",
+            padding: "12px 24px",
+            borderRadius: "12px",
             border: "none",
-            backgroundColor: "#4CAF50",
+            backgroundColor: "#22c55e",
             color: "white",
             fontWeight: "bold",
+            fontSize: "16px",
             cursor: "pointer",
             transition: "0.3s",
+            boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
           }}
         >
           Search
@@ -147,15 +192,16 @@ function Preview() {
       {loading && (
         <h2
           style={{
-            color: "white",
             textAlign: "center",
-            marginBottom: "20px",
+            color: "white",
+            marginBottom: "30px",
           }}
         >
           Loading Movies...
         </h2>
       )}
 
+      {/* Movie Cards */}
       <div
         style={{
           display: "flex",
@@ -171,16 +217,15 @@ function Preview() {
             key={index}
             style={{
               width: "260px",
-              backgroundColor: "white",
+              background: "rgba(255,255,255,0.95)",
               padding: "15px",
-              borderRadius: "15px",
-              border: "1px solid #ddd",
-              boxShadow: "0 4px 15px rgba(0,0,0,0.3)",
+              borderRadius: "20px",
+              boxShadow: "0 8px 25px rgba(0,0,0,0.25)",
               textAlign: "center",
               overflow: "hidden",
               cursor: "pointer",
               transition: "0.3s",
-              opacity: 0.95,
+              border: "1px solid rgba(255,255,255,0.4)",
             }}
           >
             <img
@@ -193,8 +238,8 @@ function Preview() {
                 width: "100%",
                 height: "350px",
                 objectFit: "cover",
-                borderRadius: "10px",
-                marginBottom: "12px",
+                borderRadius: "15px",
+                marginBottom: "15px",
               }}
             />
 
@@ -202,8 +247,9 @@ function Preview() {
               style={{
                 fontSize: "18px",
                 fontWeight: "bold",
-                color: "#333",
+                color: "#1e293b",
                 lineHeight: "1.5",
+                letterSpacing: "0.5px",
               }}
             >
               {movie.title}
