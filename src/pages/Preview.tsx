@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 interface Movie {
   title: string;
   thumbnail?: string;
+  price?: string;
+  rating?: number;
+  category?: string;
+  maturity_rating?: string;
 }
 
 function Preview() {
@@ -11,6 +15,18 @@ function Preview() {
 
   const [searchTerm, setSearchTerm] = useState("Marvel");
   const [genre, setGenre] = useState("Action");
+
+  const convertToRupiah = (price?: string) => {
+    if (!price) return "Not Available";
+
+    const usd = parseFloat(price.replace("$", ""));
+
+    if (isNaN(usd)) return price;
+
+    const rupiah = usd * 16000;
+
+    return `Rp ${rupiah.toLocaleString("id-ID")}`;
+  };
 
   const fetchMovies = async () => {
     try {
@@ -24,17 +40,19 @@ function Preview() {
 
       const data = await response.json();
 
-      console.log("API Response:", data);
-
       const results: Movie[] = [];
 
       if (data.organic_results) {
-        data.organic_results.forEach((item: any) => {
-          if (item.items) {
-            item.items.forEach((movie: any) => {
+        data.organic_results.forEach((section: any) => {
+          if (section.items) {
+            section.items.forEach((movie: any) => {
               results.push({
                 title: movie.title,
                 thumbnail: movie.thumbnail,
+                price: movie.price,
+                rating: movie.rating,
+                category: movie.category,
+                maturity_rating: movie.maturity_rating,
               });
             });
           }
@@ -208,7 +226,7 @@ function Preview() {
           flexWrap: "wrap",
           justifyContent: "center",
           gap: "25px",
-          maxWidth: "1400px",
+          maxWidth: "1500px",
           margin: "0 auto",
         }}
       >
@@ -216,7 +234,7 @@ function Preview() {
           <div
             key={index}
             style={{
-              width: "260px",
+              width: "280px",
               background: "rgba(255,255,255,0.95)",
               padding: "15px",
               borderRadius: "20px",
@@ -250,10 +268,60 @@ function Preview() {
                 color: "#1e293b",
                 lineHeight: "1.5",
                 letterSpacing: "0.5px",
+                marginBottom: "10px",
               }}
             >
               {movie.title}
             </p>
+
+            <div
+              style={{
+                borderTop: "1px solid #e5e7eb",
+                paddingTop: "12px",
+                marginTop: "10px",
+                textAlign: "left",
+              }}
+            >
+              <p
+                style={{
+                  margin: "6px 0",
+                  color: "#f59e0b",
+                  fontWeight: "bold",
+                }}
+              >
+                ⭐ Rating: {movie.rating ?? "N/A"} / 5
+              </p>
+
+              <p
+                style={{
+                  margin: "6px 0",
+                  color: "#2563eb",
+                  fontWeight: "bold",
+                }}
+              >
+                🎭 Genre: {movie.category || "Unknown"}
+              </p>
+
+              <p
+                style={{
+                  margin: "6px 0",
+                  color: "#dc2626",
+                  fontWeight: "bold",
+                }}
+              >
+                Age Rating: {movie.maturity_rating || "N/A"}
+              </p>
+
+              <p
+                style={{
+                  margin: "6px 0",
+                  color: "#16a34a",
+                  fontWeight: "bold",
+                }}
+              >
+                 Price: {convertToRupiah(movie.price)}
+              </p>
+            </div>
           </div>
         ))}
       </div>
