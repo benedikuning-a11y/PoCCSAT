@@ -7,6 +7,8 @@ interface Movie {
   rating?: number;
   category?: string;
   maturity_rating?: string;
+  link?: string;
+  video?: string;
 }
 
 function Preview() {
@@ -40,6 +42,8 @@ function Preview() {
 
       const data = await response.json();
 
+      console.log(data);
+
       const results: Movie[] = [];
 
       if (data.organic_results) {
@@ -53,6 +57,8 @@ function Preview() {
                 rating: movie.rating,
                 category: movie.category,
                 maturity_rating: movie.maturity_rating,
+                link: movie.link,
+                video: movie.video,
               });
             });
           }
@@ -76,42 +82,42 @@ function Preview() {
       style={{
         minHeight: "100vh",
         background:
-          "linear-gradient(135deg, #0f172a 0%, #1e293b 35%, #2563eb 70%, #38bdf8 100%)",
+          "linear-gradient(135deg, #0f172a 0%, #1e293b 30%, #2563eb 70%, #38bdf8 100%)",
         padding: "30px",
         margin: "0",
         fontFamily: "Arial",
       }}
     >
-      {/* Header */}
+      {/* HEADER */}
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           gap: "20px",
-          marginBottom: "15px",
           flexWrap: "wrap",
+          marginBottom: "15px",
         }}
       >
         <img
           src="https://upload.wikimedia.org/wikipedia/commons/d/d0/Google_Play_Arrow_logo.svg"
           alt="Google Play"
           style={{
-            height: "70px",
-            width: "70px",
+            width: "80px",
+            height: "80px",
             borderRadius: "15px",
-            boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
+            boxShadow: "0 6px 20px rgba(0,0,0,0.3)",
           }}
         />
 
         <h1
           style={{
             color: "white",
-            fontSize: "50px",
+            fontSize: "52px",
             fontWeight: "bold",
-            letterSpacing: "4px",
+            letterSpacing: "3px",
             textShadow: "0 4px 15px rgba(0,0,0,0.4)",
-            margin: "0",
+            margin: 0,
           }}
         >
           Google Play Movies
@@ -127,18 +133,18 @@ function Preview() {
           letterSpacing: "1px",
         }}
       >
-        Discover, Search & Explore Movies from Google Play
+        Search and discover movies directly from Google Play Movies
       </p>
 
-      {/* Search Section */}
+      {/* SEARCH SECTION */}
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
+          flexWrap: "wrap",
           gap: "15px",
           marginBottom: "40px",
-          flexWrap: "wrap",
           backgroundColor: "rgba(255,255,255,0.12)",
           padding: "20px",
           borderRadius: "20px",
@@ -154,8 +160,8 @@ function Preview() {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           style={{
-            padding: "12px",
             width: "280px",
+            padding: "12px",
             borderRadius: "12px",
             border: "none",
             fontSize: "16px",
@@ -186,6 +192,7 @@ function Preview() {
           <option value="Romance">Romance</option>
           <option value="Sci-Fi">Sci-Fi</option>
           <option value="Thriller">Thriller</option>
+          <option value="Documentary">Documentary</option>
         </select>
 
         <button
@@ -199,7 +206,6 @@ function Preview() {
             fontWeight: "bold",
             fontSize: "16px",
             cursor: "pointer",
-            transition: "0.3s",
             boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
           }}
         >
@@ -207,6 +213,7 @@ function Preview() {
         </button>
       </div>
 
+      {/* LOADING */}
       {loading && (
         <h2
           style={{
@@ -219,7 +226,7 @@ function Preview() {
         </h2>
       )}
 
-      {/* Movie Cards */}
+      {/* MOVIES GRID */}
       <div
         style={{
           display: "flex",
@@ -235,13 +242,12 @@ function Preview() {
             key={index}
             style={{
               width: "280px",
-              background: "rgba(255,255,255,0.95)",
+              backgroundColor: "rgba(255,255,255,0.95)",
               padding: "15px",
               borderRadius: "20px",
               boxShadow: "0 8px 25px rgba(0,0,0,0.25)",
               textAlign: "center",
               overflow: "hidden",
-              cursor: "pointer",
               transition: "0.3s",
               border: "1px solid rgba(255,255,255,0.4)",
             }}
@@ -261,24 +267,22 @@ function Preview() {
               }}
             />
 
-            <p
+            <h3
               style={{
                 fontSize: "18px",
                 fontWeight: "bold",
                 color: "#1e293b",
-                lineHeight: "1.5",
-                letterSpacing: "0.5px",
+                lineHeight: "1.4",
                 marginBottom: "10px",
               }}
             >
               {movie.title}
-            </p>
+            </h3>
 
             <div
               style={{
                 borderTop: "1px solid #e5e7eb",
                 paddingTop: "12px",
-                marginTop: "10px",
                 textAlign: "left",
               }}
             >
@@ -289,7 +293,7 @@ function Preview() {
                   fontWeight: "bold",
                 }}
               >
-                ⭐ Rating: {movie.rating ?? "N/A"} / 5
+                 Rating: {movie.rating ?? "N/A"} / 5
               </p>
 
               <p
@@ -319,8 +323,66 @@ function Preview() {
                   fontWeight: "bold",
                 }}
               >
-                 Price: {convertToRupiah(movie.price)}
+                Price: {convertToRupiah(movie.price)}
               </p>
+
+              {/* BUTTONS */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                  marginTop: "15px",
+                }}
+              >
+                {movie.link && (
+                  <a
+                    href={movie.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <button
+                      style={{
+                        width: "100%",
+                        padding: "10px",
+                        border: "none",
+                        borderRadius: "10px",
+                        backgroundColor: "#2563eb",
+                        color: "white",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
+                    >
+                      🎬 View Movie
+                    </button>
+                  </a>
+                )}
+
+                {movie.video && (
+                  <a
+                    href={movie.video}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ textDecoration: "none" }}
+                  >
+                    <button
+                      style={{
+                        width: "100%",
+                        padding: "10px",
+                        border: "none",
+                        borderRadius: "10px",
+                        backgroundColor: "#dc2626",
+                        color: "white",
+                        fontWeight: "bold",
+                        cursor: "pointer",
+                      }}
+                    >
+                      ▶️ Watch Trailer
+                    </button>
+                  </a>
+                )}
+              </div>
             </div>
           </div>
         ))}
